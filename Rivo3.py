@@ -49,7 +49,6 @@ while 1:
                 str = str[:char_count] + char
                 char_count = char_count + 1
                 print cmd_beg+char+cmd_end
-		#call([cmd_beg+char+cmd_end], shell=True)
                 t = threading.Thread(target=thread_speak, args=([cmd_beg+char+cmd_end]))
 		t.daemon = True
                 t.start()
