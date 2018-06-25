@@ -36,17 +36,15 @@ while 1:
                 continue
         if char == '\r':
                 print cmd_beg+str[:char_count+1]+cmd_end
-		print "this is enter"
                 t = threading.Thread(target=thread_speak, args=([cmd_beg+str+cmd_end]))
 		t.daemon = True
                 t.start()
 		str = ""
 		char_count = 0
-                #call([cmd_beg+str+cmd_end], shell=True)
 	elif char == ' ':
                 str = str[:char_count] + '_'
                 char_count = char_count + 1
-                print cmd_beg+'_'+cmd_end		
+                print cmd_beg+'_'+cmd_end
         else:
                 str = str[:char_count] + char
                 char_count = char_count + 1
