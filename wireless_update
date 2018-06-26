@@ -1,0 +1,3 @@
+git diff > update.txt
+./update.sh update.txt
+

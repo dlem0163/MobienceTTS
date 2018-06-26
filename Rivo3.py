@@ -55,6 +55,6 @@ while 1:
         print "Number of Char "
         print char_count
         char = ""
-        #print "String is " + str
+        print "String is " + str
 
 
