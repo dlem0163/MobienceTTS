@@ -1,17 +1,1 @@
-diff --git a/update.txt b/update.txt
-index 15da5cf..e69de29 100644
---- a/update.txt
-+++ b/update.txt
-@@ -1,12 +0,0 @@
--diff --git a/Rivo3.py b/Rivo3.py
--index cc7ff87..1411588 100644
----- a/Rivo3.py
--+++ b/Rivo3.py
--@@ -55,6 +55,6 @@ while 1:
--         print "Number of Char "
--         print char_count
--         char = ""
---        #print "String is " + str
--+        print "String is " + str
-- 
-- 
+ 
