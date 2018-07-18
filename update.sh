@@ -6,4 +6,5 @@ then
 echo "MobienceTTS(Version) is correct."
 else
 echo "MobienceTTS(Version) is not correct."
+git pull
 fi
