@@ -6,6 +6,6 @@ then
 echo "MobienceTTS(Version) is correct."
 else
 echo "MobienceTTS(Version) is not correct."
-espeak "update"
+espeak "Update."
 git pull
 fi
