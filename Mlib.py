@@ -1,24 +1,34 @@
-\
+
 from num2words import num2words
 from subprocess import call
+from datetime import datetime
 
 import RPi.GPIO as GPIO
 import time
 import threading
 
 global sound_value
-sound_value = 100
 global speed_value
-speed_value = 180
 global pitch_value
+global flag
+global voice
+voice = '-ven+m5'
+flag = 0 #---- 0 is Man Voice, 1 is Woman Voice ----#
+sound_value = 100
+speed_value = 180
 pitch_value = 49
 
 global cmd_beg
-cmd_beg = 'espeak -a '+ str(sound_value) + ' -p ' +  str(pitch_value) + ' -s ' + str(speed_value) + ' '
 global cmd_end
+cmd_beg = 'espeak '+ voice + ' -a '+ str(sound_value) + ' -p ' +  str(pitch_value) + ' -s ' + str(speed_value) + ' '
 cmd_end = ' 2>/dev/null'
 
 string = ""
+
+global MATRIX1
+global MATRIX2
+global MATRIX3
+global MATRIX4
 
 MATRIX1 = [ [1,2,3,'A'],
            [4,5,6,'B'],
@@ -57,7 +67,7 @@ def sounddown():
 		return
 	else:
 		sound_value = sound_value - 10
-		cmd_beg = 'espeak -a '+ str(sound_value) + ' -p ' +  str(pitch_value) + ' -s ' + str(speed_value) + ' '
+		cmd_beg = 'espeak ' + voice +' -a '+ str(sound_value) + ' -p ' +  str(pitch_value) + ' -s ' + str(speed_value) + ' '
 		print "Sound is " + str(sound_value) + " ( 0 ~ 200 )"
 
 def soundup():
@@ -68,7 +78,7 @@ def soundup():
 		return
 	else:
 		sound_value = sound_value + 10
-                cmd_beg = 'espeak -a '+ str(sound_value) + ' -p ' +  str(pitch_value) + ' -s ' + str(speed_value) + ' '
+                cmd_beg = 'espeak ' + voice + ' -a '+ str(sound_value) + ' -p ' +  str(pitch_value) + ' -s ' + str(speed_value) + ' '
  		print "Sound is " + str(sound_value) + " ( 0 ~ 200 )"
 
 #---- SPEAK SPEED CONTROL ( 80 - 450 ) ----#
@@ -78,7 +88,7 @@ def speedup():
 	if speed_value == 450:
 		return
 	else:
-                cmd_beg = 'espeak -a '+ str(sound_value) + ' -p ' +  str(pitch_value) + ' -s ' + str(speed_value) + ' '
+                cmd_beg = 'espeak ' + voice + ' -a '+ str(sound_value) + ' -p ' +  str(pitch_value) + ' -s ' + str(speed_value) + ' '
  		speed_value = speed_value + 10
 
 def speeddown():
@@ -87,7 +97,7 @@ def speeddown():
 	if speed_value == 80:
 		return
 	else:
-                cmd_beg = 'espeak -a '+ str(sound_value) + ' -p ' +  str(pitch_value) + ' -s ' + str(speed_value) + ' '
+                cmd_beg = 'espeak ' + voice + ' -a '+ str(sound_value) + ' -p ' +  str(pitch_value) + ' -s ' + str(speed_value) + ' '
  		speed_value = speed_value - 10
 
 #---- SPEAK PITCH CONTROL ( 0 - 99 ) ----#
@@ -97,7 +107,7 @@ def pitchup():
 	if pitch_value == 99:
 		return
 	else:
-                cmd_beg = 'espeak -a '+ str(sound_value) + ' -p ' +  str(pitch_value) + ' -s ' + str(speed_value) + ' '
+                cmd_beg = 'espeak ' + voice +' -a '+ str(sound_value) + ' -p ' +  str(pitch_value) + ' -s ' + str(speed_value) + ' '
  		pitch_value = pitch_value + 10
 
 def pitchdown():
@@ -106,34 +116,47 @@ def pitchdown():
 	if pitch_value == 9:
 		return
 	else:
-                cmd_beg = 'espeak -a '+ str(sound_value) + ' -p ' +  str(pitch_value) + ' -s ' + str(speed_value) + ' '
+                cmd_beg = 'espeak '+ voice + ' -a '+ str(sound_value) + ' -p ' +  str(pitch_value) + ' -s ' + str(speed_value) + ' '
  		pitch_value = pitch_value - 10
 
 #---- SPEAK VOICE CHANGE ----#
 def voice_change():
-	return
-
+	global flag
+	global cmd_beg
+	global voice
+	if flag == 0:
+		voice = '-ven+f3'
+		flag = 1
+		cmd_beg = 'espeak ' + voice + ' -a ' + str(sound_value) + ' -p ' +  str(pitch_value) + ' -s ' + str(speed_value) + ' '
+	else:
+		voice = '-ven+m5'
+		flag = 0
+		cmd_beg = 'espeak ' + voice + ' -a ' + str(sound_value) + ' -p ' +  str(pitch_value) + ' -s ' + str(speed_value) + ' '
 
 #---- CHANGE KEYPAD MATRIX ----#
 def matrix1change(a,b,c,d,e,f,g,h,i,j,k,l):
+	global MATRIX1
 	MATRIX1 = [ [a,b,c,'A'],
 		    [d,e,f,'B'],
 		    [g,h,i,'C'],
 		    [j,k,l,'D']]
 
 def matrix2change(a,b,c,d,e,f,g,h,i,j,k,l):
-        MATRIX2 = [ [a,b,c,'A'],
+        global MATRIX2
+	MATRIX2 = [ [a,b,c,'A'],
                     [d,e,f,'B'],
                     [g,h,i,'C'],
                     [j,k,l,'D']]
 
 def matrix3change(a,b,c,d,e,f,g,h,i,j,k,l):
+	global MATRIX3
         MATRIX3 = [ [a,b,c,'A'],
                     [d,e,f,'B'],
                     [g,h,i,'C'],
                     [j,k,l,'D']]
 
 def matrix4change(a,b,c,d,e,f,g,h,i,j,k,l):
+	global MATRIX4
         MATRIX4 = [ [a,b,c,'A'],
                     [d,e,f,'B'],
                     [g,h,i,'C'],
@@ -142,19 +165,19 @@ def matrix4change(a,b,c,d,e,f,g,h,i,j,k,l):
 # Modified Button Option ( A~D )
 #---- Press A option ----#
 def option_1(x,y):
-	keypad_repeat(x,y)
+	repeat(x,y)
 
 #---- Press B option ----#
 def option_2():
-	keypad_sound_up()
+	soundup()
 
 #---- Press C option ----#
 def option_3():
-	keypad_sound_down()
+	sounddown()
 
 #---- Press D option ----#
 def option_4(string):
-	thread_speak_fcn(string)
+	speak(string)
 
 #---- WORD REPEAT ----#
 def repeat(x,y):
@@ -164,7 +187,7 @@ def timespeak():
 	dt = datetime.now()
 	ti = dt.strftime("%H,%M")
 	#SPEAK TIME
-
+	speak(ti)
 #---- PRODUCT RESTART ----#
 def restart():
 	#SUDO REBOOT

@@ -28,13 +28,14 @@ while 1:
         char = getch.getch()
         if char == chr(127):
                 print "This is Back Space"
-                print str[:char_count]
-                str = str[:char_count]
-                if char_count != 0:
-                        char_count = char_count - 1
+		t = threading.Thread(target=thread_speak, args=([cmd_beg+char+cmd_end]))
+		t.daemon = True
+		t.start()
+                #if char_count != 0:
+                #        char_count = char_count - 1
                 char = ""
                 continue
-        if char == '\r':
+        elif char == '\r':
                 print cmd_beg+str[:char_count+1]+cmd_end
                 t = threading.Thread(target=thread_speak, args=([cmd_beg+str+cmd_end]))
 		t.daemon = True
