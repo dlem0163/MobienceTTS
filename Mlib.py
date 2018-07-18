@@ -12,7 +12,7 @@ global speed_value
 global pitch_value
 global flag
 global voice
-voice = '-ven+m5'
+voice = '-ven+m5' #---- Woman Voice, Man Voice ----#
 flag = 0 #---- 0 is Man Voice, 1 is Woman Voice ----#
 sound_value = 100
 speed_value = 180
